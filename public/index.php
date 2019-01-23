@@ -2,6 +2,8 @@
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+use Slim\App;
+use Slim\Middleware\TokenAuthentication;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -12,18 +14,23 @@ $config['db']['pass']   = "root";
 $config['db']['dbname'] = "slim_test";
 
 
-$app = new \Slim\App(["settings" => $config]);
+$app = new App(["settings" => $config]);
+
+
+$authenticator = function($request, TokenAuthentication $tokenAuth){
+
+	$token = $tokenAuth->findToken($request);
+	$auth = new Auth();
+	$auth->getUserByToken($token);
+
+};
+
+$app->add(new TokenAuthentication([
+	'path' =>   '/score',
+	'authenticator' => $authenticator
+]));
 
 $container = $app->getContainer();
-
-//$container['view'] = new \Slim\Views\PhpRenderer("../templates/");
-
-//$container['logger'] = function($c) {
-//	$logger = new \Monolog\Logger('my_logger');
-//	$file_handler = new \Monolog\Handler\StreamHandler("../logs/app.log");
-//	$logger->pushHandler($file_handler);
-//	return $logger;
-//};
 
 $container['db'] = function ($c) {
 	$db = $c['settings']['db'];
