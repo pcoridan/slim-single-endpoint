@@ -3,7 +3,9 @@
         "slim/slim": "^3.1",
         "slim/php-view": "^2.0",
         "monolog/monolog": "^1.17",
-        "robmorgan/phinx": "^0.5.1"
+        "robmorgan/phinx": "^0.5.1",
+        "dyorg/slim-token-authentication": "^0.3.3",
+        "vlucas/phpdotenv": "^3.1"
     },
     "autoload": {
         "psr-4": {

@@ -7,11 +7,14 @@ use Slim\Middleware\TokenAuthentication;
 
 require __DIR__ . '/../vendor/autoload.php';
 
+$dotenv = Dotenv\Dotenv::create( __DIR__ . '/../' );
+$dotenv->load();
+
 $config['displayErrorDetails'] = true;
-$config['db']['host']   = "localhost";
-$config['db']['user']   = "root";
-$config['db']['pass']   = "root";
-$config['db']['dbname'] = "slim_test";
+$config['db']['host']   = getenv('DB_HOST');
+$config['db']['user']   = getenv('DB_USER');
+$config['db']['pass']   = getenv('DB_PASS');
+$config['db']['dbname'] = getenv('DB_DATABASE');
 
 
 $app = new App(["settings" => $config]);
